@@ -1,6 +1,6 @@
 ## **KWIZARD**
 ### An Open Trivial DB Powered Quiz Platform.
-<br><br>
+<br>
 
 CHECKOUT LIVE<br>
 https://deepak-parmar.github.io/WDW_Project_CE208_CE069_CE114
