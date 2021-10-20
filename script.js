@@ -65,8 +65,7 @@ const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light ro
 <div class="container-fluid w-100 p-0">
     <div class="d-flex justify-content-between fw-bold">
         <div id="queNo">
-            <div id="currentQue" class="d-inline">1</div>/
-            <div id="totalQue" class="d-inline">${queNumbers}</div>
+            <div id="currentQue" class="d-inline">1</div>/<div id="totalQue" class="d-inline">${queNumbers}</div>
         </div>
 
         <!-- clock -->
