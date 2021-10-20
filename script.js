@@ -21,7 +21,7 @@ const getQA = async (amount, category, difficulty) => {
     })
     qa = fil
     // populate quiz carousel
-    $("#main-container").html("")
+    $("#main-container").empty()
     $("#main-container").append(quizCarousel(carouselItem(fil)))
     $(".carousel-item").eq(0).addClass("active")
 }
@@ -61,7 +61,6 @@ const quizForm = `<div class="container-fluid bg-light rounded-3 px-5 py-5 d-fle
 </form>
 </div>`
 
-
 const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light rounded-3 p-3 d-flex justify-content-center align-self-center">
 <div class="container-fluid w-100 p-0">
     <div class="d-flex justify-content-between fw-bold">
@@ -71,16 +70,23 @@ const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light ro
         </div>
 
         <!-- clock -->
-        <div class="d-flex flex-row justify-content-between align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
-            <!--<path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
+        <!--<div class="d-flex flex-row justify-content-between align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+            <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
             <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
           </svg>&nbsp;&nbsp;
-          <div>25:30</div>-->
+          <div>25:30</div>
+        </div>-->
+
+
+        <!-- score -->
+        <div class="d-flex flex-row justify-content-between align-items-center" id="score">
+            <div id="currentScore" class="d-inline">0</div>/
+            <div id="totalScore" class="d-inline">${queNumbers}</div>
         </div>
 
         <!-- close btn -->
         <div id="quiz-cls-btn" style="cursor: pointer">
-            <a href="https://deepak-parmar.github.io/kwizard">
+            <a href="http://127.0.0.1:5500">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" fill="#000"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z" fill="#000"/>
@@ -93,10 +99,6 @@ const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light ro
             <div id="quizCarousel" class="carousel carousel-dark slide w-100" data-interval="false">
                 <div class="carousel-inner">
                 ${carouselItems}
-
-                  <!-- <div class="carousel-item p-5">
-                      sample item
-                  </div> -->
                 </div>
 
                 <!-- previous btn -->
@@ -135,14 +137,14 @@ const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light ro
 </div>
 <script>$('.carousel').carousel('pause');</script>`
 
-
+// returns slide of quiz carousel
 function carouselItem(qrr) {
     let items = ''
     qrr.forEach((element, index) => {
         items += `<div class="carousel-item px-5"> <!--active-->
         <div class="que p-5">
             <div class="row mb-5">
-                <div class="col text-start fw-bold fs-5" id="q${index}">
+                <div class="col text-start fw-bold fs-5" id="q${index}" data-attempted="false">
                     ${element.question}
                 </div>
             </div>
@@ -184,20 +186,12 @@ function carouselItem(qrr) {
     return items
 }
 
+// populate quiz form on load
 $("#main-container").append(quizForm)
 
 const metadata =
 {
     "difficulties": ["easy", "medium", "hard"],
-
-    "durations": [
-        "10 Questions / 5 Minutes",
-        "15 Questions / 8 Minutes",
-        "20 Questions / 10 Minutes",
-        "30 Questions / 15 Minutes",
-        "infinite",
-        "custom"
-    ],
 
     "durations": [
         {questions: "10", timing: null},
@@ -206,8 +200,6 @@ const metadata =
         {questions: "30", timing: null},
         {questions: "40", timing: null},
         {questions: "50", timing: null},
-        // {questions: "infinite", timing: null},
-        // {questions: "custom", timing: null},
     ],
 
     "categories": [
@@ -247,10 +239,12 @@ difficulties.forEach(difficulty => {
     $("#difficulty-dropdown").append(`<option value="${difficulty}">${difficulty}</option>`)
 })
 
+
 // populate category dropdown
 categories.forEach(category => {
     $("#category-dropdown").append(`<option value="${category.no}">${category.name}</option>`)
 })
+
 
 // populate que-timing dropdown
 durations.forEach(duration => {
@@ -260,6 +254,7 @@ durations.forEach(duration => {
         $("#que-timing-dropdown").append(`<option value="${duration.questions}">${duration.questions}</option>`)
     }
 })
+
 
 $("#que-timing-dropdown").on("change", () => {
 
@@ -282,6 +277,7 @@ $("#que-timing-dropdown").on("change", () => {
     : $("#custom-options").html("")
 })
 
+
 $("#quiz-form").on("change", () => {
     if ($("#difficulty-dropdown").val() != null && $("#category-dropdown").val() != null && $("#que-timing-dropdown").val() != null) {
         $("#submit-btn").prop("disabled", false)
@@ -290,40 +286,43 @@ $("#quiz-form").on("change", () => {
     }
 })
 
-// prevent default submit behaviour
-$("#quiz-form").on("submit", (e) => {
-    e.preventDefault()
-    // collect all inputs and initialize quiz
-    $("#submit-btn").html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="width: 3rem; height: 3rem; border-width: .4rem;"></span>`)
-
-    if ($("#que-timing-dropdown").val().toLowerCase() == "custom") {
-        console.log(getQA($("#custom-ques").val(), $("#category-dropdown").val(), $("#difficulty-dropdown").val()));
-        $("#main-container").html(quizModal)
-    } else if ($("#que-timing-dropdown").val().toLowerCase() == "infinite") {
-        getQA(1, $("#category-dropdown").val(), $("#difficulty-dropdown").val())
-        $("#main-container").html(quizModal)
-    } else {
-        console.log(carouselItem(
-            getQA($("#que-timing-dropdown").val(), $("#category-dropdown").val(), $("#difficulty-dropdown").val())
-        ))
-        
-        // $("#main-container").html(
-        //     quizCarousel(carouselItem(
-        //         getQA($("#que-timing-dropdown").val(), $("#category-dropdown").val(), $("#difficulty-dropdown").val())
-        //     ))
-        // )
-    }
-})
-
 let queNumbers;
 $("#que-timing-dropdown").on("change", () => queNumbers = $("#que-timing-dropdown").val())
 
+// prevent default submit behaviour
+$("#quiz-form").on("submit", (e) => {
+    e.preventDefault()
+    
+    // show loader while quiz is being fetched
+    $("#submit-btn").html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="width: 3rem; height: 3rem; border-width: .4rem;"></span>`)
 
+    // disable quiz form inputs
+    $("#submit-btn").prop("disabled", true)
+    $("#quiz-form select").prop("disabled", true)
+
+    // initiate quiz
+    getQA($("#que-timing-dropdown").val(), $("#category-dropdown").val(), $("#difficulty-dropdown").val())
+})
+
+// check answer of current question and response accordingly
 const checkAns = (index, option, optionNo) => {
     if (option == qa[index].ans){
         $(`input[id="q${index}o${optionNo}"]`).parents().find(`label[for="q${index}o${optionNo}"]`).addClass("bg-success text-light fw-bold")
+        $("#currentScore").text(Number($("#currentScore").text())+1)
     } else {
         $(`input[id="q${index}o${optionNo}"]`).parents().find(`label[for="q${index}o${optionNo}"]`).addClass("bg-danger text-light fw-bold")
     }
+
+    // mark current question as attempted
+    $(`#q${index}`).attr("data-attempted", true)    // prop didn't work
+    
+    // disable current question
     $(`input[name=q${index}]`).attr("disabled", true)
+
+    // check if all questions are attempted
+    if ($("div[data-attempted=true]").length === Number($("#totalScore").text())) {
+        let result = `<p class="fs-5"> YOU SCORED ${$("#currentScore").text()} OUT OF ${$("#totalScore").text()}</p>`
+        $("#score").empty()
+        $("#score").append(result)
+    }
 }
