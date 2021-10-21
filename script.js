@@ -79,7 +79,7 @@ const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light ro
 
         <!-- score -->
         <div class="d-flex flex-row justify-content-between align-items-center" id="score">
-            Score:
+            Score:&nbsp;
             <div id="currentScore" class="d-inline">0</div>/
             <div id="totalScore" class="d-inline">${queNumbers}</div>
         </div>
