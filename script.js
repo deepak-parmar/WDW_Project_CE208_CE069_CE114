@@ -154,6 +154,7 @@ function carouselItem(qrr) {
         <div class="que p-5">
             <div class="row mb-5">
                 <div class="col text-start fw-bold fs-5" id="q${index}" data-attempted="false">
+                    <div class="col fs-6 mb-1 text-center">${currentQue}/${queNumbers}</div>
                     ${element.question}
                 </div>
             </div>
