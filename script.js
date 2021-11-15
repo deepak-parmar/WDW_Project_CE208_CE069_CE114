@@ -26,7 +26,6 @@ const getQA = async (amount, category, difficulty) => {
     $(".carousel-item").eq(0).addClass("active")
 }
 
-
 const quizForm = `<div class="container-fluid bg-light rounded-3 px-5 py-5 d-flex justify-content-center align-self-center">
 <form id="quiz-form" class="w-100">
     <div class="form-floating mb-3">
@@ -86,12 +85,22 @@ const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light ro
 
         <!-- close btn -->
         <div id="quiz-cls-btn" style="cursor: pointer">
-            <a href="https://deepak-parmar.github.io/WDW_Project_CE208_CE069_CE114">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" fill="#000"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z" fill="#000"/>
-          </svg></a>
+            </svg>
         </div>
+        <script>
+            $("#quiz-cls-btn").click(() => {
+                console.log($("[data-attempted=true]").length, queNumbers)
+                if ($("[data-attempted = true]").length < queNumbers) {
+                    let cancelQuiz = confirm("Quiz is not complete! Are you sure you want quit?")
+                    if (cancelQuiz) {
+                        window.location = "/WDW_Project_CE208_CE069_CE114/"
+                    }
+                }
+            })
+        </script>
     </div>
 
     <div class="row">
