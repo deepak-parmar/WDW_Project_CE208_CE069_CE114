@@ -1,4 +1,4 @@
-var qa;
+var qa, category, diff;
 
 const getQA = async (amount, category, difficulty) => {
     let response = await fetch(`https://opentdb.com/api.php?amount=${amount}&categoty=${category}&difficulty=${difficulty}&type=multiple`)
@@ -22,7 +22,7 @@ const getQA = async (amount, category, difficulty) => {
     qa = fil
     // populate quiz carousel
     $("#main-container").empty()
-    $("#main-container").append(quizCarousel(carouselItem(fil)))
+    $("#main-container").append(quizCarousel(carouselItem(fil), category))
     $(".carousel-item").eq(0).addClass("active")
 }
 
@@ -63,24 +63,16 @@ const quizForm = `<div class="container-fluid bg-light rounded-3 px-5 py-5 d-fle
 const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light rounded-3 p-3 d-flex justify-content-center align-self-center">
 <div class="container-fluid w-100 p-0">
     <div class="d-flex justify-content-between fw-bold">
-        <div id="queNo">
-            <div id="currentQue" class="d-inline">1</div>/<div id="totalQue" class="d-inline">${queNumbers}</div>
-        </div>
-
-        <!-- clock -->
-        <!--<div class="d-flex flex-row justify-content-between align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
-            <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
-            <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
-          </svg>&nbsp;&nbsp;
-          <div>25:30</div>
-        </div>-->
-
-
         <!-- score -->
         <div class="d-flex flex-row justify-content-between align-items-center" id="score">
             Score:&nbsp;
             <div id="currentScore" class="d-inline">0</div>/
             <div id="totalScore" class="d-inline">${queNumbers}</div>
+        </div>
+
+        <div id="queNo" class="text-capitalize">
+            <!--<div id="currentQue" class="d-inline">1</div>/<div id="totalQue" class="d-inline">${queNumbers}</div>-->
+            ${category} · ${diff}
         </div>
 
         <!-- close btn -->
@@ -98,6 +90,8 @@ const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light ro
                     if (cancelQuiz) {
                         window.location = "/WDW_Project_CE208_CE069_CE114/"
                     }
+                } else {
+                    window.location = "/WDW_Project_CE208_CE069_CE114/"
                 }
             })
         </script>
@@ -142,6 +136,7 @@ const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light ro
               </div>
         </div>
     </div>
+    <div id="result" class="text-center"></div>
 </div>
 </div>
 <script>$('.carousel').carousel('pause');</script>`
@@ -152,6 +147,7 @@ function carouselItem(qrr) {
     qrr.forEach((element, index) => {
         items += `<div class="carousel-item px-5"> <!--active-->
         <div class="que p-5">
+            <div class="col text-center fs-6 mb-1 fw-bold">${index+1}/${qrr.length}</div>
             <div class="row mb-5">
                 <div class="col text-start fw-bold fs-5" id="q${index}" data-attempted="false">
                     ${element.question}
@@ -266,7 +262,6 @@ durations.forEach(duration => {
 
 
 $("#que-timing-dropdown").on("change", () => {
-
     const customElements =`<div class="col mb-2">
 <div class="form-floating fw-bold">
     <input type="number" class="form-control fw-bold" id="custom-ques" placeholder="No. of Questions" min=1 max=50 step=1 required>
@@ -310,6 +305,8 @@ $("#quiz-form").on("submit", (e) => {
     $("#quiz-form select").prop("disabled", true)
 
     // initiate quiz
+    category = $("#category-dropdown option:selected").text()
+    diff = $("#difficulty-dropdown option:selected").text()
     getQA($("#que-timing-dropdown").val(), $("#category-dropdown").val(), $("#difficulty-dropdown").val())
 })
 
@@ -330,8 +327,8 @@ const checkAns = (index, option, optionNo) => {
 
     // check if all questions are attempted
     if ($("div[data-attempted=true]").length === Number($("#totalScore").text())) {
-        let result = `<p class="fs-5"> YOU SCORED ${$("#currentScore").text()} OUT OF ${$("#totalScore").text()}</p>`
-        $("#score").empty()
-        $("#score").append(result)
+        $("#result").html(`
+            <span class="badge bg-success fs-4">YOU SCORED ${$("#currentScore").text()} OUT OF ${$("#totalScore").text()}</span>
+        `)
     }
 }
