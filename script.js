@@ -136,7 +136,7 @@ const quizCarousel = (carouselItems) => `<div class="container-fluid bg-light ro
               </div>
         </div>
     </div>
-    <div id="result" class="text-center"></div>
+    <div id="result" class="text-center mb-2"></div>
 </div>
 </div>
 <script>$('.carousel').carousel('pause');</script>`
