@@ -17,4 +17,4 @@ PROJECT DEMONSTRATION VIDEO<br>
 https://deepak-parmar.github.io/WDW_Project_CE208_CE069_CE114/project_demo.mp4
 
 
-![demo](https://deepak-parmar.github.io/WDW_Project_CE208_CE069_CE114/project_demo.mp4 "Demo")
+!(https://deepak-parmar.github.io/WDW_Project_CE208_CE069_CE114/project_demo.mp4)
