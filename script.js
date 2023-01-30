@@ -1,7 +1,7 @@
 var qa, category, diff;
 
 const getQA = async (amount, category, difficulty) => {
-    let response = await fetch(`https://opentdb.com/api.php?amount=${amount}&categoty=${category}&difficulty=${difficulty}&type=multiple`)
+    let response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`)
     let result = await response.json()
 
     const {results: questions} = result
